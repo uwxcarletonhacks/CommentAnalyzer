@@ -1,8 +1,5 @@
 #Import the necessary methods from tweepy library
-from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
-from tweepy import Stream
-from tweepy import Cursor
 from tweepy import API
 import json
 import re
@@ -15,11 +12,6 @@ tone_analyzer = ToneAnalyzerV3(
 	url='https://gateway.watsonplatform.net/tone-analyzer/api'
 )
 
-# RE_EMOJI = re.compile('[\U00010000-\U0010ffff]', flags=re.UNICODE)
-
-# def strip_emoji(text):
-#     return RE_EMOJI.sub(r'', text)
-
 #Variables that contains the user credentials to access Twitter API 
 access_token = "2237159415-kEiwPGBZJWUsTYhmUdkUiS1hX0GiiwVEhPseC1F"
 access_token_secret = "9J5ylgtPuhkSKKh10jGylS8CmSKsFZP5mLJcsbFBlw74k"
@@ -30,68 +22,36 @@ tweetString = ""
 tweetList = []
 tones = {}
 
-#This is a basic listener that just prints received tweets to stdout.
-class StdOutListener(StreamListener):
-
-	def __init__(self):
-		super().__init__()
-		self.counter=0
-		self.limit=5
-
-	def on_data(self, data):
-		global tweetString
-		tweet = json.loads(data).get('text')
-		if ('RT @' in tweet):
-			tweet = tweet.split(": ", 1)[1]
-
-		tweetList.append(tweet)
-		tweetString += tweet
-		self.counter += 1
-		if (self.counter < self.limit):
-			return True
-		stream.disconnect()
-
-	def on_error(self, status):
-		tones["error"] = status
-		print(tones)
-		sys.stdout.flush()
-		stream.disconnect()
-
-
-
-#This handles Twitter authetification and the connection to Twitter Streaming API
-# l = StdOutListener()
 auth = OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
-# stream = Stream(auth, l)
-
-#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-# if (len(sys.argv) > 1):
-# 	stream.filter(track=[sys.argv[1]])
-# else:
-# 	stream.filter(track=['#maga'])
-
-
-
-# # for text in tweetList:
-# tone_analysis = tone_analyzer.tone(
-# 	{'text': tweetString},
-# 	'application/json'
-# ).get_result()
-
-# tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
-
-# for sentence in tweetSentences:
-# 	for tone in sentence.get("tones"):
-# 		tone = tone.get("tone_id")
-# 		tones[tone] = tones.get(tone, 0) + 1
-
-# print(tones)
-# sys.stdout.flush()
-
 api = API(auth)
 
-query = 'python'
-max_tweets = 1
-searched_tweets = [status for status in Cursor(api.search, q=query).items(max_tweets)]
-print(searched_tweets)
+if (len(sys.argv) > 1):
+	search = "#" + sys.argv[1]
+else:
+	search = "#python"
+
+search_results = api.search(q=search, count=100)
+for i in range(len(search_results)):
+	tweet = json.loads(json.dumps(search_results[i]._json)).get('text')
+	if ('RT @' in tweet):
+		tweet = tweet.split(": ", 1)[1]
+
+	tweetList.append(tweet)
+	tweetString += tweet
+
+# # for text in tweetList:
+tone_analysis = tone_analyzer.tone(
+	{'text': tweetString},
+	'application/json'
+).get_result()
+
+tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
+
+for sentence in tweetSentences:
+	for tone in sentence.get("tones"):
+		tone = tone.get("tone_id")
+		tones[tone] = tones.get(tone, 0) + 1
+
+print(tones)
+sys.stdout.flush()
