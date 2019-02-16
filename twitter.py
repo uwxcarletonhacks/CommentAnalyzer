@@ -50,32 +50,32 @@ class StdOutListener(StreamListener):
 		print (status)
 
 
-if __name__ == '__main__':
-	#This handles Twitter authetification and the connection to Twitter Streaming API
-	l = StdOutListener()
-	auth = OAuthHandler(consumer_key, consumer_secret)
-	auth.set_access_token(access_token, access_token_secret)
-	stream = Stream(auth, l)
+#This handles Twitter authetification and the connection to Twitter Streaming API
+l = StdOutListener()
+auth = OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+stream = Stream(auth, l)
 
-	#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-	if (len(sys.argv) > 1):
-		stream.filter(track=[sys.argv[1]])
-	else:
-		stream.filter(track=['#maga'])
+#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
+if (len(sys.argv) > 1):
+	stream.filter(track=[sys.argv[1]])
+else:
+	stream.filter(track=['#maga'])
 
 
-	tones = {}
-	# for text in tweetList:
-	tone_analysis = tone_analyzer.tone(
-		{'text': tweetString},
-		'application/json'
-	).get_result()
+tones = {}
+# for text in tweetList:
+tone_analysis = tone_analyzer.tone(
+	{'text': tweetString},
+	'application/json'
+).get_result()
 
-	tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
+tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
 
-	for sentence in tweetSentences:
-		for tone in sentence.get("tones"):
-			tone = tone.get("tone_id")
-			tones[tone] = tones.get(tone, 0) + 1
-	
-	print(tones)
+for sentence in tweetSentences:
+	for tone in sentence.get("tones"):
+		tone = tone.get("tone_id")
+		tones[tone] = tones.get(tone, 0) + 1
+
+print(tones)
+sys.stdout.flush()
