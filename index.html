@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <title>Twitter Tone Analyzer</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <script src="/javascripts/main.js"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+</head>
+
+<body>
+
+<div class="ui raised very padded text container segment form">
+
+    <h1 class="ui centered header">
+        <img class="ui image" src="http://www.stickpng.com/assets/images/580b57fcd9996e24bc43c53e.png">
+        <div class="content bigtext">
+            Twitter Tone Analyzer
+        </div>
+    </h1>
+    <div class="ui weirdMargin big labeled action input">
+        <div class="ui label">
+            #
+        </div>
+        <input class="reducedPadding" id="username" type="text" name="username" placeholder="Enter a hashtag...">
+        <button id="analyze" class="ui green submit button">Analyze!</button>
+    </div>
+    <div id="loadingCircle" class="ui inline loader"></div>
+    <div class="ui error message"></div>
+    <section id="results" class="centered">
+
+    </section>
+
+</div>
+<footer>
+    <p>Made for <img src="https://cuhacking.com/img/logo.png" height="15" width="15"> cuHacking by <a href="https://www.github.com/davidhzhu">David Zhu</a>, <a href="https://github.com/devonpmack">Devon
+        Mack</a>, <a href="https://github.com/billzzhang">Bill Zhang</a>, <a href="https://github.com/ethanzohar">Ethan Zohar</a>, and <a
+                href="https://github.com/nicholaspaquin">Nicholas Paquin</a></p>
+</footer>
+</body>
+
+</html>
