@@ -25,6 +25,7 @@ consumer_key = "nqXHh0t7oJpGbdeGhp2PGmP81"
 consumer_secret = "bXcaZmYR1kqaWXNHLDKBBH6ngNkGkkAA3WhYTXJEaeRo8HMnmP"
 
 tweetString = ""
+tones = {}
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
@@ -47,7 +48,11 @@ class StdOutListener(StreamListener):
 		stream.disconnect()
 
 	def on_error(self, status):
-		print (status)
+		tones["error"] = status
+		print(tones)
+		sys.stdout.flush()
+		stream.disconnect()
+
 
 
 #This handles Twitter authetification and the connection to Twitter Streaming API
@@ -63,7 +68,7 @@ else:
 	stream.filter(track=['#maga'])
 
 
-tones = {}
+
 # for text in tweetList:
 tone_analysis = tone_analyzer.tone(
 	{'text': tweetString},
