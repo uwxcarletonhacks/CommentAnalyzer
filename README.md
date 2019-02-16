@@ -8,6 +8,8 @@ Enter any hashtag/keyword and our webapp collects information on the average emo
 
 ## Libraries and languages used
 
+- IBM Tone Analyzer
+- Twitter "Tweepy" API
 - Animate and hover .css libraries
 - Python
 - HTML, CSS and Javascript
