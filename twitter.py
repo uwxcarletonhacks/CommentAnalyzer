@@ -42,7 +42,6 @@ class StdOutListener(StreamListener):
 		# tweetList.append(strip_emoji(tweet))
 		tweetList.append(tweet)
 		self.counter += 1
-		print(self.counter)
 		if (self.counter < self.limit):
 			return True
 		stream.disconnect()
@@ -61,7 +60,7 @@ if __name__ == '__main__':
 	# tweets = api.search('#maga', rpp=10, page=1)
 
 	#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-	if (len(sys.argv) > 0):
+	if (len(sys.argv) > 1):
 		stream.filter(track=[sys.argv[1]])
 	else:
 		stream.filter(track=['#maga'])
