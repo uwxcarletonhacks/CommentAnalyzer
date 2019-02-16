@@ -18,14 +18,14 @@ while(True):
 	sure_bg = cv2.dilate(opening,kernel,iterations=3)
 	# Finding sure foreground area
 	dist_transform = cv2.distanceTransform(opening,cv2.DIST_L2,5)
-	ret, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),255,0)
+	ret2, sure_fg = cv2.threshold(dist_transform,0.7*dist_transform.max(),255,0)
 
 	# Finding unknown region
 	sure_fg = np.uint8(sure_fg)
 	unknown = cv2.subtract(sure_bg,sure_fg)
 
 	# Marker labelling
-	ret, markers = cv2.connectedComponents(sure_fg)
+	ret2, markers = cv2.connectedComponents(sure_fg)
 
 	# Add one to all labels so that sure background is not 0, but 1
 	markers = markers+1
