@@ -5,6 +5,8 @@ import json
 import re
 from watson_developer_cloud import ToneAnalyzerV3
 import sys
+import plotly
+import plotly.graph_objs as go
 
 tone_analyzer = ToneAnalyzerV3(
 	version='2017-09-21',
@@ -31,7 +33,7 @@ if (len(sys.argv) > 1):
 else:
 	search = "#python"
 
-search_results = api.search(q=search, count=100)
+search_results = api.search(q="#maga", count=100)
 for i in range(len(search_results)):
 	tweet = json.loads(json.dumps(search_results[i]._json)).get('text')
 	if ('RT @' in tweet):
@@ -53,5 +55,22 @@ for sentence in tweetSentences:
 		tone = tone.get("tone_id")
 		tones[tone] = tones.get(tone, 0) + 1
 
-print(tones)
+data = [go.Bar(
+		x=list(tones.keys()),
+		y=list(tones.values())
+)]
+
+plotly.offline.plot(data, filename='twitter-graph.html', auto_open=False)
+
+f = open("twitter-graph.html", "r")
+html = f.read();
+html = html.split("</body>")[0].split("<body>")[1]
+html = html.replace('"', "'")
+
+returnDic = {}
+
+returnDic["html"] = html;
+returnDic["tweetList"] = tweetList
+
+print(returnDic)
 sys.stdout.flush()
