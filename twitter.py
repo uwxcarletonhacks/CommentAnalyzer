@@ -33,11 +33,6 @@ if (len(sys.argv) > 1):
 else:
 	search = "#python"
 
-# search_results = []
-# for i in range(1, 11):
-# 	search_results.append(api.search(q=search, rpp=100, page=i))
-
-# print(len(search_results))
 search_results = api.search(q="#maga", count=100)
 for i in range(len(search_results)):
 	tweet = json.loads(json.dumps(search_results[i]._json)).get('text')
@@ -60,7 +55,7 @@ for sentence in tweetSentences:
 		tone = tone.get("tone_id")
 		tones[tone] = tones.get(tone, 0) + 1
 
-data =  [go.Bar(
+data = [go.Bar(
 		x=list(tones.keys()),
 		y=list(tones.values())
 )]
@@ -71,8 +66,10 @@ f = open("twitter-graph.html", "r")
 html = f.read();
 html = html.split("</body>")[0].split("<body>")[1]
 
-tones["html"] = html;
-tones["tweetList"] = tweetList
+returnDic = {}
 
-print(tones)
+returnDic["html"] = html;
+returnDic["tweetList"] = tweetList
+
+print(returnDic)
 sys.stdout.flush()
