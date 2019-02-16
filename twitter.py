@@ -5,6 +5,7 @@ from tweepy import Stream
 import json
 import re
 from watson_developer_cloud import ToneAnalyzerV3
+import sys
 
 tone_analyzer = ToneAnalyzerV3(
 	version='2017-09-21',
@@ -51,7 +52,6 @@ class StdOutListener(StreamListener):
 
 
 if __name__ == '__main__':
-
 	#This handles Twitter authetification and the connection to Twitter Streaming API
 	l = StdOutListener()
 	auth = OAuthHandler(consumer_key, consumer_secret)
@@ -61,7 +61,10 @@ if __name__ == '__main__':
 	# tweets = api.search('#maga', rpp=10, page=1)
 
 	#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-	stream.filter(track=['#maga'])
+	if (len(sys.argv) > 0):
+		stream.filter(track=[sys.argv[1]])
+	else:
+		stream.filter(track=['#maga'])
 
 	# try:
 	#     # Invoke a Tone Analyzer method
