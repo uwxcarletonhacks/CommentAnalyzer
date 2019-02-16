@@ -1,4 +1,3 @@
-methods from tweepy library
 from tweepy import OAuthHandler
 from tweepy import API
 import json
