@@ -24,7 +24,7 @@ access_token_secret = "9J5ylgtPuhkSKKh10jGylS8CmSKsFZP5mLJcsbFBlw74k"
 consumer_key = "nqXHh0t7oJpGbdeGhp2PGmP81"
 consumer_secret = "bXcaZmYR1kqaWXNHLDKBBH6ngNkGkkAA3WhYTXJEaeRo8HMnmP"
 
-tweetList = []
+tweetString = ""
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
@@ -35,12 +35,12 @@ class StdOutListener(StreamListener):
 		self.limit=5
 
 	def on_data(self, data):
+		global tweetString
 		tweet = json.loads(data).get('text')
 		if ('RT @' in tweet):
 			tweet = tweet.split(": ", 1)[1]
 
-		# tweetList.append(strip_emoji(tweet))
-		tweetList.append(tweet)
+		tweetString += tweet
 		self.counter += 1
 		if (self.counter < self.limit):
 			return True
@@ -56,8 +56,6 @@ if __name__ == '__main__':
 	auth = OAuthHandler(consumer_key, consumer_secret)
 	auth.set_access_token(access_token, access_token_secret)
 	stream = Stream(auth, l)
-	# api = tweepy.API(auth)
-	# tweets = api.search('#maga', rpp=10, page=1)
 
 	#This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
 	if (len(sys.argv) > 1):
@@ -65,29 +63,19 @@ if __name__ == '__main__':
 	else:
 		stream.filter(track=['#maga'])
 
-	# try:
-	#     # Invoke a Tone Analyzer method
-	# except WatsonApiException as ex:
-	#     print "Method failed with status code " + str(ex.code) + ": " + ex.message
-
 
 	tones = {}
-	for text in tweetList:
-		tone_analysis = tone_analyzer.tone(
-		{'text': text},
+	# for text in tweetList:
+	tone_analysis = tone_analyzer.tone(
+		{'text': tweetString},
 		'application/json'
-		).get_result()
+	).get_result()
 
-		tweetTones = json.loads(json.dumps(tone_analysis, indent=2)).get("document_tone").get("tones")
+	tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
 
-		for tweetTone in tweetTones:
-			tweetTone = tweetTone.get("tone_id")
-			tones[tweetTone] = tones.get(tweetTone, 0) + 1
+	for sentence in tweetSentences:
+		for tone in sentence.get("tones"):
+			tone = tone.get("tone_id")
+			tones[tone] = tones.get(tone, 0) + 1
 	
-
 	print(tones)
-	tweetList = []
-
-	#JS -> python (string hashtag)
-	#python -> twitter, wait to get 100 tweets
-	#python -> JS return
