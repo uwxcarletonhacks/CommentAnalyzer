@@ -16,6 +16,7 @@ access_token_secret = "9J5ylgtPuhkSKKh10jGylS8CmSKsFZP5mLJcsbFBlw74k"
 consumer_key = "nqXHh0t7oJpGbdeGhp2PGmP81"
 consumer_secret = "bXcaZmYR1kqaWXNHLDKBBH6ngNkGkkAA3WhYTXJEaeRo8HMnmP"
 
+tweetList = []
 
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
@@ -25,11 +26,7 @@ class StdOutListener(StreamListener):
         if ('RT ' in tweet):
         	tweet = tweet.split(": ", 1)[1]
 
-       	print()
-        print(tweet)
-        print("-----------")
-        print(strip_emoji(tweet))
-        print()
+        tweetList.append(strip_emoji(tweet))
         return True
 
     def on_error(self, status):
@@ -46,3 +43,7 @@ if __name__ == '__main__':
 
     #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
     stream.filter(track=['#maga'])
+
+#JS -> python (string hashtag)
+#python -> twitter, wait to get 100 tweets
+#python -> JS return
