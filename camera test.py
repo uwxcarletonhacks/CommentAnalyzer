@@ -36,7 +36,7 @@ while(True):
 	markers = cv2.watershed(frame,markers)
 	frame[markers == -1] = [255,0,0]
 
-	cv2.imshow('frame', frame)
+	cv2.imshow('frame', thresh)
 
 	if (cv2.waitKey(1) & 0xFF == ord('q')):
 		break
