@@ -1,4 +1,4 @@
-#Import the necessary methods from tweepy library
+methods from tweepy library
 from tweepy import OAuthHandler
 from tweepy import API
 import json
@@ -14,7 +14,7 @@ tone_analyzer = ToneAnalyzerV3(
 	url='https://gateway.watsonplatform.net/tone-analyzer/api'
 )
 
-#Variables that contains the user credentials to access Twitter API 
+#Variables that contains the user credentials to access Twitter API
 access_token = "2237159415-kEiwPGBZJWUsTYhmUdkUiS1hX0GiiwVEhPseC1F"
 access_token_secret = "9J5ylgtPuhkSKKh10jGylS8CmSKsFZP5mLJcsbFBlw74k"
 consumer_key = "nqXHh0t7oJpGbdeGhp2PGmP81"
@@ -33,12 +33,13 @@ if (len(sys.argv) > 1):
 else:
 	search = "#python"
 
-search_results = api.search(q="#maga", count=100)
+search_results = api.search(q=search, count=100)
 for i in range(len(search_results)):
 	tweet = json.loads(json.dumps(search_results[i]._json)).get('text')
 	if ('RT @' in tweet):
 		tweet = tweet.split(": ", 1)[1]
 
+	tweet = tweet.replace("'", "^G*M)FE#C%B&!X$BKN")
 	tweetList.append(tweet)
 	tweetString += tweet
 
@@ -60,17 +61,16 @@ data = [go.Bar(
 		y=list(tones.values())
 )]
 
-plotly.offline.plot(data, filename='twitter-graph.html', auto_open=False)
+plotly.offline.plot(data, filename='public/twitter-graph.html', auto_open=False)
 
-f = open("twitter-graph.html", "r")
+f = open("public/twitter-graph.html", "r")
 html = f.read();
 html = html.split("</body>")[0].split("<body>")[1]
-html = html.replace('"', "'")
+html = html.replace("'", '"')
 
 returnDic = {}
 
 returnDic["html"] = html;
 returnDic["tweetList"] = tweetList
-
-print(returnDic)
+print(json.dumps(returnDic))
 sys.stdout.flush()
