@@ -60,11 +60,12 @@ data = [go.Bar(
 		y=list(tones.values())
 )]
 
-plotly.offline.plot(data, filename='twitter-graph.html')
+plotly.offline.plot(data, filename='twitter-graph.html', auto_open=False)
 
 f = open("twitter-graph.html", "r")
 html = f.read();
 html = html.split("</body>")[0].split("<body>")[1]
+html = html.replace('"', "'")
 
 returnDic = {}
 
