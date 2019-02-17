@@ -27,7 +27,7 @@ class RedditParser(object):
             reddit.subreddits.search_by_name(sub, exact=True)
         except NotFound:
             exists = False
-            print("no sub found")
+            print(json.dumps({}))
         return exists
     def run(self):
         import praw
@@ -49,7 +49,6 @@ class RedditParser(object):
                     b_dict['subreddit']['text'].append(allcomment.body)
             redditList = b_dict['subreddit']['text']
             b_dict['subreddit']['text'] = "\n".join(b_dict['subreddit']['text'])
-            #print (b_dict['subreddit']['text'])
             return b_dict
         else:
             return None
@@ -95,4 +94,4 @@ if longstr:
         
         sys.stdout.flush()
     else:
-        print ("no contents")
+        print (json.dumps({})) #no contents
