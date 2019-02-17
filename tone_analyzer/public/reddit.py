@@ -78,10 +78,10 @@ if longstr:
 		y=list(tones.values())
         )]
         plotly.offline.plot(data, filename='public/reddit-graph.html', auto_open=False)
-        f = open("public/reddit-graph.html", "r")
-        html = f.read();
-        html = html.split("</body>")[0].split("<body>")[1]
-        html = html.replace("'", '"')
+        #f = open("public/reddit-graph.html", "r")
+        #html = f.read();
+        #html = html.split("</body>")[0].split("<body>")[1]
+        #html = html.replace("'", '"')
 
         returnDic = {}
 

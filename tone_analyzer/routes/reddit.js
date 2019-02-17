@@ -14,7 +14,7 @@ router.get('/:keyword', async (req, res) => {
   const options = {
     mode: 'text',
     pythonPath: '/usr/local/bin/python3',
-    scriptPath: '/Users/devon/WebstormProjects/tone_analyzer/public',
+    scriptPath: 'public',
     args: [keyword]
   };
 

@@ -6,6 +6,8 @@ from watson_developer_cloud import ToneAnalyzerV3
 import sys
 import plotly
 import plotly.graph_objs as go
+TWEET_COUNT = 100
+PAGE_COUNT = 3
 
 tone_analyzer = ToneAnalyzerV3(
 	version='2017-09-21',
@@ -32,15 +34,28 @@ if (len(sys.argv) > 1):
 else:
 	search = "#python"
 
-search_results = api.search(q=search, count=100)
-for i in range(len(search_results)):
-	tweet = json.loads(json.dumps(search_results[i]._json)).get('text')
-	if ('RT @' in tweet):
-		tweet = tweet.split(": ", 1)[1]
+breakBool = False
+idList = []
+search_results = api.search(q=search, count=TWEET_COUNT, result_type='recent', lang="en")
+for j in range (PAGE_COUNT):
+	for i in range(len(search_results)):
+		idValue = json.loads(json.dumps(search_results[i]._json)).get('id')
+		tweet = json.loads(json.dumps(search_results[i]._json)).get('text')
+		if ('RT @' in tweet):
+			tweet = tweet.split(": ", 1)[1]
 
-	tweet = tweet.replace("'", "KNIJOU(*HIBJNKHUY&T^FYGVHBGUYTR%")
-	tweetList.append(tweet)
-	tweetString += tweet
+		tweet = tweet.replace("'", "KNIJOU(*HIBJNKHUY&T^FYGVHBGUYTR%")
+		if (idValue not in idList):
+			idList.append(idValue)
+			tweetList.append(tweet)
+			tweetString += tweet
+	idList.sort()
+	if (len(idList) > 0 and j < 2):
+		if (breakBool):
+			break
+		search_results = api.search(q=search, max_id=idList[1]-1, count=TWEET_COUNT, result_type='recent', lang="en")
+		if (len(search_results) < TWEET_COUNT/2):
+			breakBool = True
 
 # # for text in tweetList:
 if (len(search_results) > 0):
@@ -63,14 +78,14 @@ if (len(search_results) > 0):
 
 	plotly.offline.plot(data, filename='public/twitter-graph.html', auto_open=False)
 
-	f = open("public/twitter-graph.html", "r")
-	html = f.read();
-	html = html.split("</body>")[0].split("<body>")[1]
-	html = html.replace("'", '"')
+	#f = open("public/twitter-graph.html", "r")
+	#html = f.read();
+	#html = html.split("</body>")[0].split("<body>")[1]
+	#html = html.replace("'", '"')
 
 	returnDic = {}
 
-	returnDic["html"] = html;
+	#returnDic["html"] = html;
 	returnDic["tweetList"] = tweetList
 	print(json.dumps(returnDic))
 	sys.stdout.flush()
