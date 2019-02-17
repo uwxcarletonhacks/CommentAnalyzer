@@ -3,6 +3,10 @@ import json
 import re
 from watson_developer_cloud import ToneAnalyzerV3
 from prawcore import NotFound
+import plotly
+import plotly.graph_objs as go
+
+redditList = []
 
 tone_analyzer = ToneAnalyzerV3(
 	version='2017-09-21',
@@ -27,6 +31,7 @@ class RedditParser(object):
         return exists
     def run(self):
         import praw
+        global redditList
         POSTS = 3 #How many submissions in a subreddit to analyze
         #a_dict = {'subreddit' : {'name': str(self.sbreddit), 'submission': {'title': None, 'description': None, 'comments': []}}}
         if (RedditParser.sub_exists(self.sbreddit)):
@@ -42,6 +47,7 @@ class RedditParser(object):
                 for allcomment in submission.comments.list():
                     #a_dict['subreddit']['submission']['comments'].append(allcomment.body)
                     b_dict['subreddit']['text'].append(allcomment.body)
+            redditList = b_dict['subreddit']['text']
             b_dict['subreddit']['text'] = "\n".join(b_dict['subreddit']['text'])
             #print (b_dict['subreddit']['text'])
             return b_dict
@@ -50,6 +56,7 @@ class RedditParser(object):
 
 # If no arguments
 if len(sys.argv) == 1:
+    print ('No specified subreddit')
     exit(1)
 args = sys.argv[1]
 runner = RedditParser(args)
@@ -67,7 +74,25 @@ if longstr:
             for tone in sentence.get("tones"):
                 tone = tone.get("tone_id")
                 tones[tone] = tones.get(tone, 0) + 1
-        print(tones)
+        data = [go.Bar(
+		x=list(tones.keys()),
+		y=list(tones.values())
+        )]
+        plotly.offline.plot(data, filename='reddit-graph.html', auto_open=False)
+        f = open("reddit-graph.html", "r")
+        html = f.read();
+        html = html.split("</body>")[0].split("<body>")[1]
+        html = html.replace("'", '"')
+
+        returnDic = {}
+
+        for red in redditList:
+            red = red.replace("'", "^G*M)FE#C%B&!X$BKN")
+
+        returnDic["html"] = html;
+        returnDic["tweetList"] = redditList
+        print(json.dumps(returnDic))
+        
         sys.stdout.flush()
     else:
         print ("no contents")
