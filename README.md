@@ -15,6 +15,7 @@ Enter any hashtag/keyword and our webapp collects information on the average emo
 
 ## Dependencies
 
+- `Node.js v10.9.0`
 - `Tweepy`
 - `watson_developer_cloud`
 - `plotly`
