@@ -1,4 +1,3 @@
-methods from tweepy library
 from tweepy import OAuthHandler
 from tweepy import API
 import json
@@ -44,33 +43,37 @@ for i in range(len(search_results)):
 	tweetString += tweet
 
 # # for text in tweetList:
-tone_analysis = tone_analyzer.tone(
-	{'text': tweetString},
-	'application/json'
-).get_result()
+if (len(search_results) > 0):
+	tone_analysis = tone_analyzer.tone(
+		{'text': tweetString},
+		'application/json'
+	).get_result()
 
-tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
+	tweetSentences = json.loads(json.dumps(tone_analysis, indent=2)).get("sentences_tone")
 
-for sentence in tweetSentences:
-	for tone in sentence.get("tones"):
-		tone = tone.get("tone_id")
-		tones[tone] = tones.get(tone, 0) + 1
+	for sentence in tweetSentences:
+		for tone in sentence.get("tones"):
+			tone = tone.get("tone_id")
+			tones[tone] = tones.get(tone, 0) + 1
 
-data = [go.Bar(
-		x=list(tones.keys()),
-		y=list(tones.values())
-)]
+	data = [go.Bar(
+			x=list(tones.keys()),
+			y=list(tones.values())
+	)]
 
-plotly.offline.plot(data, filename='public/twitter-graph.html', auto_open=False)
+	plotly.offline.plot(data, filename='public/twitter-graph.html', auto_open=False)
 
-f = open("public/twitter-graph.html", "r")
-html = f.read();
-html = html.split("</body>")[0].split("<body>")[1]
-html = html.replace("'", '"')
+	f = open("public/twitter-graph.html", "r")
+	html = f.read();
+	html = html.split("</body>")[0].split("<body>")[1]
+	html = html.replace("'", '"')
 
-returnDic = {}
+	returnDic = {}
 
-returnDic["html"] = html;
-returnDic["tweetList"] = tweetList
-print(json.dumps(returnDic))
-sys.stdout.flush()
+	returnDic["html"] = html;
+	returnDic["tweetList"] = tweetList
+	print(json.dumps(returnDic))
+	sys.stdout.flush()
+else:
+	print(json.dumps({}))
+	sys.stdout.flush()
