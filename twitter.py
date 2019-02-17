@@ -61,9 +61,9 @@ if (len(search_results) > 0):
 			y=list(tones.values())
 	)]
 
-	plotly.offline.plot(data, filename='public/twitter-graph.html', auto_open=False)
+	plotly.offline.plot(data, filename='twitter-graph.html', auto_open=False)
 
-	f = open("public/twitter-graph.html", "r")
+	f = open("twitter-graph.html", "r")
 	html = f.read();
 	html = html.split("</body>")[0].split("<body>")[1]
 	html = html.replace("'", '"')
