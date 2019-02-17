@@ -35,6 +35,7 @@ if (len(sys.argv) > 1):
 else:
 	search = "#python"
 
+breakBool = False
 idList = []
 search_results = api.search(q=search, count=TWEET_COUNT, result_type='recent', lang="en")
 for j in range (PAGE_COUNT):
@@ -51,7 +52,11 @@ for j in range (PAGE_COUNT):
 			tweetString += tweet
 	idList.sort()
 	if (len(idList) > 0 and j < 2):
+		if (breakBool):
+			break
 		search_results = api.search(q=search, max_id=idList[1]-1, count=TWEET_COUNT, result_type='recent', lang="en")
+		if (len(search_results) < TWEET_COUNT/2):
+			breakBool = True
 
 # # for text in tweetList:
 if (len(search_results) > 0):
