@@ -1,4 +1,4 @@
-# [Comment Tone Anaylzer](www.google.com): Mood analyzer with IBM's Tone API
+# [Comment Tone Analyzer](www.google.com): Mood analyzer with IBM's Tone API
 
 Developed by [David Zhu](https://github.com/davidhzhu), [Devon Mack](https://github.com/devonpmack), [Bill Zhang](https://github.com/billzzhang), [Ethan Zohar](https://github.com/ethanzohar), and [Nicholas Paquin](https://github.com/nicholaspaquin) for cuHacking 2019.
 
@@ -15,6 +15,7 @@ Enter any hashtag/keyword and our webapp collects information on the average emo
 
 ## Dependencies
 
+- `Node.js v10.9.0`
 - `Tweepy`
 - `watson_developer_cloud`
 - `plotly`
