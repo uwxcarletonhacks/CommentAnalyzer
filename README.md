@@ -6,10 +6,16 @@ Developed by [David Zhu](https://github.com/davidhzhu), [Devon Mack](https://git
 
 Enter any hashtag/keyword and our webapp collects information on the average emotion/tone associated with that topic. Uses Tweepy APIs to collect and python to parse data.
 
-## Libraries and languages used
+## Languages/Libraries used
 
-- IBM Tone Analyzer
-- Twitter "Tweepy" API
 - Animate and hover .css libraries
 - Python
 - HTML, CSS and Javascript
+
+## Dependencies
+
+- `Tweepy`
+- `watson_developer_cloud`
+- `plotly`
+- `praw`
+- `prawcore`
