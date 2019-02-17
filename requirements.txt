@@ -19,13 +19,10 @@ ipython-genutils==0.2.0
 ipywidgets==7.4.2
 Jinja2==2.10
 jsonschema==2.6.0
-jupyter-client==5.2.3
-jupyter-core==4.4.0
 MarkupSafe==1.1.0
 mistune==0.8.4
 nbconvert==5.4.0
 nbformat==4.4.0
-notebook==5.7.2
 oauthlib==3.0.1
 pandocfilters==1.4.2
 pathlib2==2.3.2
