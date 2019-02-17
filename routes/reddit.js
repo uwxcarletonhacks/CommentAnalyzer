@@ -13,7 +13,8 @@ router.get('/:keyword', async (req, res) => {
 
   const options = {
     mode: 'text',
-    pythonPath: '/usr/local/bin/python3',
+    // pythonPath: '/usr/local/bin/python3',
+    pythonPath: '/usr/bin/python3',
     scriptPath: 'public',
     args: [keyword]
   };
