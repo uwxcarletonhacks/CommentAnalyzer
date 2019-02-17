@@ -34,7 +34,6 @@ function loadSite() {
     button.disabled = false;
 
   });
-
 }
 
 async function analyze(search_term) {
