@@ -13,8 +13,8 @@ Enter any hashtag/keyword and our webapp collects information on the average emo
 - Python
 - HTML, CSS and Javascript
 - IBM Watson Tone Analyzer
-- Reddit API
-- Twitter API
+- Praw Reddit API
+- Tweepy Twitter API
 
 ## Dependencies
 
