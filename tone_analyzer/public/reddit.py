@@ -61,10 +61,10 @@ args = sys.argv[1]
 runner = RedditParser(args)
 longstr = runner.run()
 if longstr:
-    if longstr['subreddit']['text']:
+    if longstr['subreddit']['text'][:30000]:
         tones = {}
         tone_analysis = tone_analyzer.tone(
-            {'text': longstr['subreddit']['text']},
+            {'text': longstr['subreddit']['text'][:30000]},
             'application/json'
         ).get_result()
 

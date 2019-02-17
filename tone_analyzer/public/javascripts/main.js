@@ -8,7 +8,7 @@ function loadSite() {
           identifier: 'search_term',
           rules: [
             {
-              type: 'regExp[/^@?(\\w){1,15}$/]',
+              type: 'regExp[/^@?(\\w){1,35}$/]',
               prompt: 'Invalid search term'
             }
           ]
@@ -21,7 +21,7 @@ function loadSite() {
   $('.form').submit(async (e) => {
     const search_term = $("#search_term").val();
 
-    if (!/^@?(\w){1,15}$/.test(search_term)) {
+    if (!/^@?(\w){1,35}$/.test(search_term)) {
       return;
     }
 
